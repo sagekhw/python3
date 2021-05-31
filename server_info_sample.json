@@ -1,0 +1,30 @@
+{
+    "production" : {
+        "SECRET_KEY" : "SECRET_KEY 값",
+        "DATABASES" : {
+            "default": {
+                "ENGINE": "DB 드라이버",
+                "NAME": "DB 데이터베이스",
+                "USER": "User",
+                "PASSWORD": "Password",
+                "HOST": "호스트",
+                "PORT": "포트(숫자)"
+            }
+        },
+        "SERVER" :{
+            "HOST" : "IP or DNS",
+            "PORT" : "포트(숫자)",
+            "JWT_SECRET_KEY" : "input jwt cecret key",
+            "JWT_ALGORITHM" :"algorithm type",
+            "JWT_ACCESS_TOKEN_EXPIRES" : 0
+        },
+        "GOOGLECLOUD" : {
+            "FIREBASE" : {
+                "CLOUD_MESSAGING":{
+                    "WEBAPIKEY" : "WEBAPIKEY",
+                    "TOKEN" : "TOKEN"
+                }
+            }
+        }
+    }
+} 
