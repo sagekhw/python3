@@ -59,7 +59,7 @@ class smsService:
             'testmode_yn' : 'N'
         }
         # list_response = requests.post(list_url,headers=headersParam, data=json.dumps(list_data))
-        list_response = requests.post(list_url, headers=headersParam, data=json.dumps(list_data))
+        list_response = requests.post(list_url, headers=headersParam, data=list_data)
         print(list_response.json())
 
         list_data1={
@@ -68,7 +68,7 @@ class smsService:
             'testmode_yn' : 'N'
         }
         # list_response = requests.post(list_url,headers=headersParam, data=json.dumps(list_data))
-        list_response = requests.post(list_url, headers=headersParam, data=json.dumps(list_data1))
+        list_response = requests.post(list_url, headers=headersParam, data=list_data1)
         print(list_response.json())
 
         list_data2={
@@ -85,3 +85,5 @@ class smsService:
         # list_response = requests.post(list_url,headers=headersParam, data=json.dumps(list_data))
         list_response = requests.post(list_url, headers=headersParam,data=list_data3)
         print(list_response.json())
+
+    
