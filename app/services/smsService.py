@@ -2,6 +2,7 @@ import requests
 import json
 from app.config.ReplacementConfig import *
 from app.config.AppConfig import *
+import urllib
 
 
 class smsService:
@@ -47,11 +48,40 @@ class smsService:
         }
         print("list_data : ",type(json.dumps(list_data)),list_data)
         """
+
+        
+        headersParam = {
+            "Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"
+        }
         list_data={
-            "apikey": "ygymi2qceedlx4gg23yotngatxeyh8s6", #api key
-            "userid": "otheon", # 알리고 사이트 아이디
-            "testmode_yn" : "N"
+            "key": "ygymi2qceedlx4gg23yotngatxeyh8s6", #api key
+            "user_id": "otheon", # 알리고 사이트 아이디
+            'testmode_yn' : 'N'
         }
         # list_response = requests.post(list_url,headers=headersParam, data=json.dumps(list_data))
-        list_response = requests.post("https://apis.aligo.in/list/",headers={"Content-Type":"application/json"}, data=list_data)
+        list_response = requests.post(list_url, headers=headersParam, data=json.dumps(list_data))
+        print(list_response.json())
+
+        list_data1={
+            "key": "ygymi2qceedlx4gg23yotngatxeyh8s6", #api key
+            "userid": "otheon", # 알리고 사이트 아이디
+            'testmode_yn' : 'N'
+        }
+        # list_response = requests.post(list_url,headers=headersParam, data=json.dumps(list_data))
+        list_response = requests.post(list_url, headers=headersParam, data=json.dumps(list_data1))
+        print(list_response.json())
+
+        list_data2={
+            'key': 'ygymi2qceedlx4gg23yotngatxeyh8s6',
+            'user_id': 'otheon'
+        }
+        # list_response = requests.post(list_url,headers=headersParam, data=json.dumps(list_data))
+        list_response = requests.post(list_url, headers=headersParam,data=list_data2)
+        print(list_response.json())
+        list_data3={
+            'key': 'ygymi2qceedlx4gg23yotngatxeyh8s6',
+            'user_id': 'otheon'
+        }
+        # list_response = requests.post(list_url,headers=headersParam, data=json.dumps(list_data))
+        list_response = requests.post(list_url, headers=headersParam,data=list_data3)
         print(list_response.json())
