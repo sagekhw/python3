@@ -48,8 +48,8 @@ class smsService:
         print("list_data : ",type(json.dumps(list_data)),list_data)
         """
         list_data={
-            "key": "ygymi2qceedlx4gg23yotngatxeyh8s6", #api key
-            "user_id": "otheon", # 알리고 사이트 아이디
+            "apikey": "ygymi2qceedlx4gg23yotngatxeyh8s6", #api key
+            "userid": "otheon", # 알리고 사이트 아이디
             "testmode_yn" : "N"
         }
         # list_response = requests.post(list_url,headers=headersParam, data=json.dumps(list_data))
