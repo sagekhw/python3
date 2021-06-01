@@ -1,13 +1,14 @@
 
 
 
-
+# Falg
 class ReplacementConfig():
     ZERO    = 0
     IN      = 'IN'
     OUT     = 'OUT'
     INSTANT = "instant"
-    
+
+# About MariaDB
 class MariadbSTR():
     START_TRANSACTION = "START TRANSACTION"
     SELECT_LAST_INSERT_ID = "SELECT LAST_INSERT_ID()"
@@ -67,6 +68,11 @@ class STR():
     UNREGISTERED_AT = 'unregistered_at'
     UPDATED_AT      = 'updated_at'
     UPDATED_BY      = 'updated_by'
+
+
+    ### str index
+    SUBJECT = 'Subject'
+
 
 
 

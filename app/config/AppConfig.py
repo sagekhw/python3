@@ -1,8 +1,20 @@
 
+from flask import Flask
+from flask_cors import CORS
+from flask_jwt_extended import *
+from flask_jwt_extended import JWTManager
+from flask_mail import Mail, Message
+
+# from app.controller.SimbaController import *
+# from app.controller.AuthController import *
+# from app.controller.UserController import *
+from app.config.AppConfig import *
+import datetime
 import json
 
 with open('server_info.json', mode='rt', encoding='utf-8') as json_file:
     json_data = json.load(json_file)
+
 
 
 class FlaskConfig():
@@ -14,9 +26,43 @@ class FlaskConfig():
 
 
 class FlaskMailConfig():
-    MAIL_SERVER = json_data['production']['FLASKMAIL']['MAIL_SERVER']
-    MAIL_PORT = json_data['production']['FLASKMAIL']['MAIL_PORT']
-    MAIL_USERNAME = json_data['production']['FLASKMAIL']['MAIL_USERNAME']
-    MAIL_PASSWORD = json_data['production']['FLASKMAIL']['MAIL_PASSWORD']
-    MAIL_USE_TLS = json_data['production']['FLASKMAIL']['MAIL_USE_TLS']
-    MAIL_USE_SSL = json_data['production']['FLASKMAIL']['MAIL_USE_SSL']
+    GMAIL_SERVER = json_data['production']['MAIL']['GOOGLE']['SERVER']
+    GMAIL_PORT = json_data['production']['MAIL']['GOOGLE']['PORT']
+    GMAIL_USERNAME = json_data['production']['MAIL']['GOOGLE']['USERNAME']
+    GMAIL_PASSWORD = json_data['production']['MAIL']['GOOGLE']['PASSWORD']
+    GMAIL_USE_TLS = json_data['production']['MAIL']['GOOGLE']['USE_TLS']
+    GMAIL_USE_SSL = json_data['production']['MAIL']['GOOGLE']['USE_SSL']
+
+class FlaskSMSConfig():
+    ALIGO_IDENTIFIER = json_data['production']['SMS']['ALIGO']['IDENTIFIER']
+    ALIGO_KEY = json_data['production']['SMS']['ALIGO']['KEY']
+
+
+
+class FlaskAppConfig():
+    def __init__(self):
+        pass
+
+
+### function
+# mail = Mail()
+def init_application():
+        print('init app')
+        app = Flask(__name__)
+        # app = FlaskAppConfig.init_app(app)
+        # TODO
+        CORS(app, resources={r'*': {'origins': '*'}})
+
+        #### JWT ####
+        # JWT 매니저 활성화
+
+        app.config["JWT_SECRET_KEY"] = FlaskConfig.JWT_SECRET_KEY
+        app.config['JWT_ALGORITHM'] = FlaskConfig.JWT_ALGORITHM
+        app.config['JWT_ACCESS_TOKEN_EXPIRES'] = datetime.timedelta(minutes=FlaskConfig.JWT_ACCESS_TOKEN_EXPIRES)
+        jwt = JWTManager(app)
+        """
+        # jwt = JWTManager()
+        # jwt.init_app(app)
+        """
+
+        return app
