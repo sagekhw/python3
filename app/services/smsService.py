@@ -53,5 +53,5 @@ class smsService:
             "testmode_yn" : "N"
         }
         # list_response = requests.post(list_url,headers=headersParam, data=json.dumps(list_data))
-        list_response = requests.post("https://apis.aligo.in/list/",headers=headersParam, data=list_data)
+        list_response = requests.post("https://apis.aligo.in/list/",headers="Content-Type":"application/json", data=list_data)
         print(list_response.json())
