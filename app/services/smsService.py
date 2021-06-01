@@ -16,7 +16,7 @@ class smsService:
         # API키, 알리고 사이트 아이디, 발신번호, 수신번호, 문자내용
 
         sms_data={'key': FlaskSMSConfig.ALIGO_KEY, #api key
-                'userid': FlaskSMSConfig.ALIGO_IDENTIFIER, # 알리고 사이트 아이디
+                'user_id': FlaskSMSConfig.ALIGO_IDENTIFIER, # 알리고 사이트 아이디
                 'sender': '070-4350-0558', # 발신번호
                 'receiver': '01046682003', # 수신번호 (,활용하여 1000명까지 추가 가능)
                 'msg': 'sagekhw test', #문자 내용 
@@ -38,8 +38,8 @@ class smsService:
         # API키, 알리고 사이트 아이디, 발신번호, 수신번호, 문자내용
 
         list_data={'key': FlaskSMSConfig.ALIGO_KEY, #api key
-                'userid': FlaskSMSConfig.ALIGO_IDENTIFIER # 알리고 사이트 아이디
-                
+                'userid': FlaskSMSConfig.ALIGO_IDENTIFIER, # 알리고 사이트 아이디
+                'testmode_yn' : 'N'
         }
         list_response = requests.post(list_url, data=list_data)
         print(list_response.json())
