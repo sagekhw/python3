@@ -47,5 +47,5 @@ class smsService:
         }
         print("list_data : ",type(json.dumps(list_data)),list_data)
         
-        list_response = requests.post(list_url,,headers=headersParam, data=json.dumps(list_data))
+        list_response = requests.post(list_url,headers=headersParam, data=json.dumps(list_data))
         print(list_response.json())
