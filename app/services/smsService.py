@@ -37,11 +37,15 @@ class smsService:
         # API key, userid, sender, receiver, msg
         # API키, 알리고 사이트 아이디, 발신번호, 수신번호, 문자내용
 
-        list_data={'key': FlaskSMSConfig.ALIGO_KEY, #api key
-                'user_id': FlaskSMSConfig.ALIGO_IDENTIFIER, # 알리고 사이트 아이디
-                'testmode_yn' : 'N'
+        list_data={
+            'key': FlaskSMSConfig.ALIGO_KEY, #api key
+            'user_id': FlaskSMSConfig.ALIGO_IDENTIFIER, # 알리고 사이트 아이디
+            'testmode_yn' : 'N'
+        }
+        headersParam = {
+            "Content-Type":"application/json"
         }
         print("list_data : ",type(json.dumps(list_data)),list_data)
         
-        list_response = requests.post(list_url, data=json.dumps(list_data))
+        list_response = requests.post(list_url,,headers=headersParam, data=json.dumps(list_data))
         print(list_response.json())
