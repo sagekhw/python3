@@ -38,7 +38,7 @@ class smsService:
         # API키, 알리고 사이트 아이디, 발신번호, 수신번호, 문자내용
 
         list_data={'key': FlaskSMSConfig.ALIGO_KEY, #api key
-                'userid': FlaskSMSConfig.ALIGO_IDENTIFIER, # 알리고 사이트 아이디
+                'user_id': FlaskSMSConfig.ALIGO_IDENTIFIER, # 알리고 사이트 아이디
                 'testmode_yn' : 'N'
         }
         list_response = requests.post(list_url, data=list_data)
