@@ -97,12 +97,17 @@ class smsService:
             result['code'] = resCode
             return result
             
-    def kakaoTalk_channel_categorylist(self,kakaoTalk_data):result = dict()
+    def kakaoTalk_channel_categorylist(self,kakaoTalk_data):
+        try:
+            result = dict()
+            basic_send_url = 'https://kakaoapi.aligo.in/akv10/category/' 
+            category_search_response = requests.post(basic_send_url, data=kakaoTalk_data)
         except Exception as e:
             resCode = 0
             print(e)
         else:
             resCode = 200
+            result = category_search_response.json()
         finally:
             result['code'] = resCode
             return result
@@ -111,8 +116,7 @@ class smsService:
         try:
             result = dict()
             basic_send_url = 'https://kakaoapi.aligo.in/akv10/profile/list/ ' 
-            category_search_response = requests.post(basic_send_url, data=kakaoTalk_data)
-            
+            category_search_response = requests.post(basic_send_url, data=kakaoTalk_data)            
         except Exception as e:
             resCode = 0
             print(e)
@@ -128,12 +132,11 @@ class smsService:
             result = dict()
             basic_send_url = 'https://kakaoapi.aligo.in/akv10/template/list/ ' 
             category_search_response = requests.post(basic_send_url, data=kakaoTalk_data)
-            
         except Exception as e:
             resCode = 0
             print(e)
         else:
-            
+            resCode = 200
             result = category_search_response.json()            
         finally:
             result['code'] = resCode
