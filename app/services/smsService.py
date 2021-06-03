@@ -1,5 +1,6 @@
 import requests
-import json
+import simplejson as json
+from flask import *
 from app.config.ReplacementConfig import *
 from app.config.AppConfig import *
 import urllib
@@ -9,81 +10,149 @@ class smsService:
     def __init__(self):
         pass
 
-    def send(self):
-        send_url = 'https://apis.aligo.in/send/' # 요청을 던지는 URL, 현재는 문자보내기
+    def rebuild_requestParam_onemsg(self,param):
+        d=dict()
+        receiver = list()
+        destination = list()
+        d= param
 
-        # ================================================================== 문자 보낼 때 필수 key값
-        # API key, userid, sender, receiver, msg
-        # API키, 알리고 사이트 아이디, 발신번호, 수신번호, 문자내용
+        for x in d.keys():
+            receiver.append(x)
+            temp = x+"|"+d[x]
+            destination.append(temp)
 
-        sms_data={'key': FlaskSMSConfig.ALIGO_KEY, #api key
-                'user_id': FlaskSMSConfig.ALIGO_IDENTIFIER, # 알리고 사이트 아이디
-                'sender': '070-4350-0558', # 발신번호
-                'receiver': '01046682003', # 수신번호 (,활용하여 1000명까지 추가 가능)
-                'msg': 'sagekhw test', #문자 내용 
-                'msg_type' : 'SMS', #메세지 타입 (SMS, LMS)
-                'title' : 'title', #메세지 제목 (장문에 적용)
-                'destination' : '01000000000|홍길동', # %고객명% 치환용 입력
-                #'rdate' : '예약날짜',
-                #'rtime' : '예약시간',
-                #'testmode_yn' : '' #테스트모드 적용 여부 Y/N
-        }
-        send_response = requests.post(send_url, data=sms_data)
-        print (send_response.json())
+        receivers = ",".join(receiver)
+        destinations = ",".join(destination)
+        return receivers,destinations
 
-    def sendList(self):
-        list_url ='https://apis.aligo.in/list/'
-
-        # ================================================================== 문자 보낼 때 필수 key값
-        # API key, userid, sender, receiver, msg
-        # API키, 알리고 사이트 아이디, 발신번호, 수신번호, 문자내용
-        """
-        list_data={
-            'key': FlaskSMSConfig.ALIGO_KEY, #api key
-            'user_id': FlaskSMSConfig.ALIGO_IDENTIFIER, # 알리고 사이트 아이디
-            'testmode_yn' : 'N'
-        }
-        headersParam = {
-            "Content-Type":"application/json"
-        }
-        print("list_data : ",type(json.dumps(list_data)),list_data)
-        """
-
+    ############################## SMS ##############################
+    def send_oneMsg_toManyReceiver(self,sms_data):
+        try:
+            result = dict()
+            send_url = 'https://apis.aligo.in/send/'
+            receivers,destinations = self.rebuild_requestParam_onemsg(sms_data['receiver'])
+            sms_data['receiver'] = receivers
+            sms_data['destination'] = destinations
+            send_response = requests.post(send_url, data=sms_data)
+        except Exception as e:
+            resCode = 0
+            result["error"] = "Exception!!"
+        else:
+            resCode = 200
+            result = send_response.json()
+        finally:
+            result['code'] = resCode
+            return result
         
-        headersParam = {
-            "Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"
-        }
-        list_data={
-            "key": "ygymi2qceedlx4gg23yotngatxeyh8s6", #api key
-            "user_id": "otheon", # 알리고 사이트 아이디
-            'testmode_yn' : 'N'
-        }
-        # list_response = requests.post(list_url,headers=headersParam, data=json.dumps(list_data))
-        list_response = requests.post(list_url, headers=headersParam, data=list_data)
-        print(list_response.json())
 
-        list_data1={
-            "key": "ygymi2qceedlx4gg23yotngatxeyh8s6", #api key
-            "userid": "otheon", # 알리고 사이트 아이디
-            'testmode_yn' : 'N'
-        }
-        # list_response = requests.post(list_url,headers=headersParam, data=json.dumps(list_data))
-        list_response = requests.post(list_url, headers=headersParam, data=list_data1)
-        print(list_response.json())
+    def sendList(self,sms_data):
+        try:
+            result = dict()
+            list_url ='https://apis.aligo.in/list/'
+            headersParam = {
+                "Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"
+            }
+            list_response = requests.post(list_url, headers=headersParam, data=sms_data)
+        except Exception as e:
+            resCode = 0
+            result["error"] = "Exception!!"
+        else:
+            resCode = 200
+            result=list_response.json()
+        finally:
+            result['code'] = resCode
+            return result
+ 
 
-        list_data2={
-            'key': 'ygymi2qceedlx4gg23yotngatxeyh8s6',
-            'user_id': 'otheon'
-        }
-        # list_response = requests.post(list_url,headers=headersParam, data=json.dumps(list_data))
-        list_response = requests.post(list_url, headers=headersParam,data=list_data2)
-        print(list_response.json())
-        list_data3={
-            'key': 'ygymi2qceedlx4gg23yotngatxeyh8s6',
-            'user_id': 'otheon'
-        }
-        # list_response = requests.post(list_url,headers=headersParam, data=json.dumps(list_data))
-        list_response = requests.post(list_url, headers=headersParam,data=list_data3)
-        print(list_response.json())
-
+    ############################## KAKAO TALK ##############################
+    def kakaoTalk_getToken(self,kakaoTalk_data):
+        try:
+            result = dict()
+            basic_send_url = 'https://kakaoapi.aligo.in/akv10/token/create/30/s/' # 요청을 던지는 URL, 현재는 토큰생성
+            # token/create/토큰 유효시간/{y(년)/m(월)/d(일)/h(시)/i(분)/s(초)}/
+            create_token_response = requests.post(basic_send_url, data=kakaoTalk_data)
+        except Exception as e:
+            resCode = 0
+            result["error"] = "Exception!!"
+        else:
+            resCode = 200
+            result = create_token_response.json()
+        finally:
+            result['code'] = resCode
+            return result
     
+    def kakaoTalkChannel_auth(self,kakaoTalk_data):
+        try:
+            result = dict()
+            basic_send_url = 'https://kakaoapi.aligo.in/akv10/profile/auth/'
+            channel_auth_response = requests.post(basic_send_url, data=kakaoTalk_data)
+        except Exception as e:
+            # print(e)
+            resCode = 0
+            result["error"] = "Exception!!"
+        else:
+            resCode = 200
+            result = channel_auth_response.json()
+        finally:
+            result['code'] = resCode
+            return result
+            
+    def kakaoTalk_channel_categorylist(self,kakaoTalk_data):result = dict()
+        except Exception as e:
+            resCode = 0
+            print(e)
+        else:
+            resCode = 200
+        finally:
+            result['code'] = resCode
+            return result
+
+    def kakaoTalk_channel_registerList(self,kakaoTalk_data):
+        try:
+            result = dict()
+            basic_send_url = 'https://kakaoapi.aligo.in/akv10/profile/list/ ' 
+            category_search_response = requests.post(basic_send_url, data=kakaoTalk_data)
+            
+        except Exception as e:
+            resCode = 0
+            print(e)
+        else:
+            resCode = 200
+            result = category_search_response.json()
+        finally:
+            result['code'] = resCode
+            return result
+
+    def kakaoTalk_template_list(self,kakaoTalk_data):
+        try:
+            result = dict()
+            basic_send_url = 'https://kakaoapi.aligo.in/akv10/template/list/ ' 
+            category_search_response = requests.post(basic_send_url, data=kakaoTalk_data)
+            
+        except Exception as e:
+            resCode = 0
+            print(e)
+        else:
+            
+            result = category_search_response.json()            
+        finally:
+            result['code'] = resCode
+            return result
+    
+    def kakaoTalk_alimtalk_send(self,kakaoTalk_data):
+        try:
+            result = dict()
+            basic_send_url = 'https://kakaoapi.aligo.in/akv10/alimtalk/send/ ' 
+            response = requests.post(basic_send_url, data=kakaoTalk_data)
+        except Exception as e:
+            resCode = 0
+            # print(e)
+        else:
+            resCode = 200
+            result = response.json()
+        finally:
+            result['code'] = resCode
+            return result
+           
+
+

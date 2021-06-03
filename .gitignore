@@ -40,5 +40,7 @@ __pycache__/
 venv
 server_info.json
 setting_db.txt
-test.py
 service-account.json
+test.py
+test1.py
+temp.txt
