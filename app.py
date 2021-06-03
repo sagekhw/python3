@@ -13,7 +13,7 @@ app = init_application()
 
 app.register_blueprint(auth)
 app.register_blueprint(userC)
-app.register_blueprint(simba)
+app.register_blueprint(notice)
 
 
 
