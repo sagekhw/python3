@@ -2,7 +2,7 @@
 from flask import Flask
 
 
-from app.controller.SimbaController import *
+from app.controller.NoticeController import *
 from app.controller.AuthController import *
 from app.controller.UserController import *
 from app.config.AppConfig import *

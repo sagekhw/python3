@@ -4,28 +4,24 @@ from app.config.AppConfig import *
 from app.services.mailService import *
 from app.services.smsService import *
 
-simba = Blueprint('SimbaController', __name__, url_prefix='/simba')
+notice = Blueprint('NoticeController', __name__, url_prefix='/notice')
 mailService = mailService()
 smsService = smsService()
-@simba.route('/a', methods=['GET'])
+@notice.route('/a', methods=['GET'])
 def a():    
     return {'hello':'a-simba'}
 
-@simba.route('/test', methods=['POST'])
+@notice.route('/test', methods=['POST'])
 def test():
     req = request.get_json()
-    
     return smsService.send_oneMsg_toManyReceiver(req)
 
-
-@simba.route("/email", methods=['post', 'get'])
+@notice.route("/email", methods=['POST'])
 def email_test():
     print(FlaskMailConfig.GMAIL_SERVER)
     return "hello"    
-   
 
-
-@simba.route("/sms/send/onemsg", methods=['post', 'get'])
+@notice.route("/sms/send/onemsg", methods=['POST'])
 def sms():
     req = request.get_json()
     """
@@ -47,12 +43,10 @@ def sms():
     return smsService.send_oneMsg_toManyReceiver(req)
 
 
-@simba.route("/sms/list", methods=['post', 'get'])
+@notice.route("/sms/list", methods=['POST'])
 def sendList():
     req = request.get_json()
-    """
-    {
-        "key": "essential", 
+    """post', 'get
         "user_id": "essential",
         "page":"selection (default 1) integer",
         "page_size":"selection (default 30) 30~500 integer",
@@ -62,7 +56,7 @@ def sendList():
     """
     return smsService.sendList(req)
 
-@simba.route("/kakaoTalk/token", methods=['post', 'get'])
+@notice.route("/kakaoTalk/token", methods=['POST'])
 def getToken():
     req = request.get_json()
     """
@@ -73,7 +67,7 @@ def getToken():
     """
     return smsService.kakaoTalk_getToken(req)
 
-@simba.route("/kakaoTalk/authChannel", methods=['post', 'get'])
+@notice.route("/kakaoTalk/authChannel", methods=['POST'])
 def authChannel():
     req = request.get_json()
     """
@@ -87,7 +81,7 @@ def authChannel():
     """
     return smsService.kakaoTalkChannel_auth(req)
 
-@simba.route("/kakaoTalk/channel/categorylist", methods=['post', 'get'])
+@notice.route("/kakaoTalk/channel/categorylist", methods=['POST'])
 def kakaoTalk_channel_categorylist():
     req = request.get_json()
     """
@@ -99,7 +93,7 @@ def kakaoTalk_channel_categorylist():
     """
     return smsService.kakaoTalk_channel_categorylist(req)
 
-@simba.route("/kakaoTalk/channel/list", methods=['post', 'get'])
+@notice.route("/kakaoTalk/channel/list", methods=['POST'])
 def kakaoTalk_channel_registerList():
     req = request.get_json()
     """
@@ -111,7 +105,7 @@ def kakaoTalk_channel_registerList():
     """
     return smsService.kakaoTalk_channel_registerList(req)
 
-@simba.route("/kakaoTalk/template/list", methods=['post', 'get'])
+@notice.route("/kakaoTalk/template/list", methods=['POST'])
 def kakaoTalk_template_list():
     req = request.get_json()
     """
@@ -126,7 +120,7 @@ def kakaoTalk_template_list():
     return smsService.kakaoTalk_template_list(req)
 
 
-@simba.route("/kakaoTalk/alimtalk/send", methods=['post', 'get'])
+@notice.route("/kakaoTalk/alimtalk/send", methods=['POST'])
 def kakaoTalk_alimtalk_send():
     req = request.get_json()
     """
@@ -156,7 +150,6 @@ def kakaoTalk_alimtalk_send():
     }
     """
     req['button_1'] = json.dumps(req['button_1']) # button의 타입은 JSON 이어야 합니다.
-
     return smsService.kakaoTalk_alimtalk_send(req)
 
  
