@@ -129,14 +129,13 @@ def kakaoTalk_template_list():
 @simba.route("/kakaoTalk/alimtalk/send", methods=['post', 'get'])
 def kakaoTalk_alimtalk_send():
     req = request.get_json()
-
     """
     "apikey": "essential",
     "button_1":{
         "button":[
         {
-            "linkMo": "http://www.ocopage.com/",
-            "linkPc": "http://www.ocopage.com/",
+            "linkMo": "http://www.sagekhw.com/",
+            "linkPc": "http://www.sagekhw.com/",
             "linkType": "WL",
             "linkTypeName": "웹링크",
             "name": "자세히 보기"
