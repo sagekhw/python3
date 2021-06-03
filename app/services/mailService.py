@@ -16,6 +16,7 @@ from email.mime.image import MIMEImage
 from email.mime.audio import MIMEAudio
 
 from app.config.ReplacementConfig import *
+from app.config.AppConfig import *
 
 
 
@@ -24,6 +25,58 @@ class mailService:
         pass
 
     def send(self):
+        pass
+        
+    def send_email(self,smtp_info, msg):
+        try:
+            with smtplib.SMTP(smtp_info["smtp_server"], smtp_info["smtp_port"]) as server:
+                # TLS 보안 연결
+                server.starttls() 
+                # 로그인
+                server.login(smtp_info["smtp_user_id"], smtp_info["smtp_user_pw"])
+                # 로그인 된 서버에 이메일 전송
+                response = server.sendmail(msg['from'], msg['to'], msg.as_string().encode('utf-8')) # 메시지를 보낼때는 .as_string() 메소드를 사용해서 문자열로 바꿔줍니다.
+        except Exception as e:
+            pass
+        else:
+            pass
+        finally:
+            return response
+
+    def send_text(self,email_data):
+        try:
+            result = dict()
+            smtp_info = dict({"smtp_server" : FlaskMailConfig.GMAIL_SERVER, # SMTP 서버 주소
+                  "smtp_user_id" : FlaskMailConfig.GMAIL_USERNAME, 
+                  "smtp_user_pw" : FlaskMailConfig.GMAIL_PASSWORD, 
+                  "smtp_port" : FlaskMailConfig.GMAIL_PORT}) # SMTP 서버 포트
+
+            # 메일 객체 생성 : 메시지 내용에는 한글이 들어가기 때문에 한글을 지원하는 문자 체계인 UTF-8을 명시해줍니다.
+            msg = MIMEText(_text = email_data['content'], _charset = "utf-8") # 메일 내용
+
+            msg['Subject'] = email_data['title']     # 메일 제목
+            msg['From'] = email_data['sender']       # 송신자
+            msg['To'] = email_data['receiver']       # 수신자
+
+            response = self.send_email(smtp_info, msg)
+            # 이메일을 성공적으로 보내면 결과는 {}
+            if not response:
+                resCode = 200
+                print('이메일을 성공적으로 보냈습니다.')
+            else:
+                resCode = 0
+                print(response)
+                
+        except Exception as e:
+            resCode = 0
+        else:
+            resCode = 200
+        finally:
+            result['code'] = resCode
+            return result
+
+"""
+def send(self):
         # 세션생성
         s = smtplib.SMTP(FlaskMailConfig.GMAIL_SERVER, FlaskMailConfig.GMAIL_PORT)
          # TLS 보안 연결
@@ -54,4 +107,4 @@ class mailService:
             print('이메일을 성공적으로 보냈습니다.')
         else:
             print(response)
-
+"""

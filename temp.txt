@@ -1,1 +1,12 @@
-"hello"
+curl -X POST "https://apis.aligo.in/send/" \
+	--data-urlencode "key=xxxxx" \
+	--data-urlencode "user_id=xxxxx" \
+	--data-urlencode "sender=025114560" \
+	--data-urlencode "receiver=01111111111,01111111112" \
+	--data-urlencode "destination=01111111111|홍길동,01111111112|아무개" \
+	--data-urlencode "msg=%고객명%님! 안녕하세요. API TEST SEND" \
+	--data-urlencode "title=API TEST 입니다" \
+	--data-urlencode "rdate=20210603" \
+	--data-urlencode "rtime=1052" \
+	--data-urlencode "testmode_yn=Y" \
+	--form image=@localfilename

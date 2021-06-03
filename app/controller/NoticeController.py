@@ -16,11 +16,27 @@ def test():
     req = request.get_json()
     return smsService.send_oneMsg_toManyReceiver(req)
 
+############################## EMAIL ##############################
 @notice.route("/email", methods=['POST'])
 def email_test():
     print(FlaskMailConfig.GMAIL_SERVER)
-    return "hello"    
+    return mailService.sendA()
 
+@notice.route("/email/send/text", methods=['POST'])
+def email_sand_text():
+    req = request.get_json()
+    """
+    {
+        "title":"제목",
+        "content":"REST API로 이메일 전송 하는 내용",
+        "sender":"sagekhw@naver.com",
+        "title":"sagekhw@gmail.com"
+    }
+    """
+    print("/email/send/text")
+    return mailService.send_text(req)
+
+############################## SMS ##############################
 @notice.route("/sms/send/onemsg", methods=['POST'])
 def sms():
     req = request.get_json()
@@ -56,6 +72,7 @@ def sendList():
     """
     return smsService.sendList(req)
 
+############################## KAKAO TALK ##############################
 @notice.route("/kakaoTalk/token", methods=['POST'])
 def getToken():
     req = request.get_json()
