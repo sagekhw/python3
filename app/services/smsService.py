@@ -24,7 +24,20 @@ class smsService:
         receivers = ",".join(receiver)
         destinations = ",".join(destination)
         return receivers,destinations
-
+        
+    def sms_common(self,url,data):
+        try:
+            result = dict()
+            response = requests.post(url, data=data)
+        except Exception as e:
+            resCode = 0
+            # print(e)
+        else:
+            resCode = 200
+            result = response.json()
+        finally:
+            result['code'] = resCode
+            return result
     ############################## SMS ##############################
     def send_oneMsg_toManyReceiver(self,sms_data):
         try:
@@ -66,96 +79,109 @@ class smsService:
 
     ############################## KAKAO TALK ##############################
     def kakaoTalk_getToken(self,kakaoTalk_data):
-        try:
-            result = dict()
-            basic_send_url = 'https://kakaoapi.aligo.in/akv10/token/create/30/s/' # 요청을 던지는 URL, 현재는 토큰생성
-            # token/create/토큰 유효시간/{y(년)/m(월)/d(일)/h(시)/i(분)/s(초)}/
-            create_token_response = requests.post(basic_send_url, data=kakaoTalk_data)
-        except Exception as e:
-            resCode = 0
-            result["error"] = "Exception!!"
-        else:
-            resCode = 200
-            result = create_token_response.json()
-        finally:
-            result['code'] = resCode
-            return result
+        url = 'https://kakaoapi.aligo.in/akv10/token/create/30/s/'
+        # token/create/토큰 유효시간/{y(년)/m(월)/d(일)/h(시)/i(분)/s(초)}/
+        return self.sms_common(url = url,data = kakaoTalk_data)
+        # try:
+        #     result = dict()
+        #     basic_send_url = 'https://kakaoapi.aligo.in/akv10/token/create/30/s/' # 요청을 던지는 URL, 현재는 토큰생성
+        #     # token/create/토큰 유효시간/{y(년)/m(월)/d(일)/h(시)/i(분)/s(초)}/
+        #     create_token_response = requests.post(basic_send_url, data=kakaoTalk_data)
+        # except Exception as e:
+        #     resCode = 0
+        #     result["error"] = "Exception!!"
+        # else:
+        #     resCode = 200
+        #     result = create_token_response.json()
+        # finally:
+        #     result['code'] = resCode
+        #     return result
     
     def kakaoTalkChannel_auth(self,kakaoTalk_data):
-        try:
-            result = dict()
-            basic_send_url = 'https://kakaoapi.aligo.in/akv10/profile/auth/'
-            channel_auth_response = requests.post(basic_send_url, data=kakaoTalk_data)
-        except Exception as e:
-            # print(e)
-            resCode = 0
-            result["error"] = "Exception!!"
-        else:
-            resCode = 200
-            result = channel_auth_response.json()
-        finally:
-            result['code'] = resCode
-            return result
+        url = 'https://kakaoapi.aligo.in/akv10/profile/auth/'
+        return self.sms_common(url = url,data = kakaoTalk_data)
+        # try:
+        #     result = dict()
+        #     basic_send_url = 'https://kakaoapi.aligo.in/akv10/profile/auth/'
+        #     channel_auth_response = requests.post(basic_send_url, data=kakaoTalk_data)
+        # except Exception as e:
+        #     # print(e)
+        #     resCode = 0
+        #     result["error"] = "Exception!!"
+        # else:
+        #     resCode = 200
+        #     result = channel_auth_response.json()
+        # finally:
+        #     result['code'] = resCode
+        #     return result
             
     def kakaoTalk_channel_categorylist(self,kakaoTalk_data):
-        try:
-            result = dict()
-            basic_send_url = 'https://kakaoapi.aligo.in/akv10/category/' 
-            category_search_response = requests.post(basic_send_url, data=kakaoTalk_data)
-        except Exception as e:
-            resCode = 0
-            print(e)
-        else:
-            resCode = 200
-            result = category_search_response.json()
-        finally:
-            result['code'] = resCode
-            return result
+        url = 'https://kakaoapi.aligo.in/akv10/category/' 
+        return self.sms_common(url = url,data = kakaoTalk_data)
+        # try:
+        #     result = dict()
+        #     basic_send_url = 'https://kakaoapi.aligo.in/akv10/category/' 
+        #     category_search_response = requests.post(basic_send_url, data=kakaoTalk_data)
+        # except Exception as e:
+        #     resCode = 0
+        #     print(e)
+        # else:
+        #     resCode = 200
+        #     result = category_search_response.json()
+        # finally:
+        #     result['code'] = resCode
+        #     return result
 
     def kakaoTalk_channel_registerList(self,kakaoTalk_data):
-        try:
-            result = dict()
-            basic_send_url = 'https://kakaoapi.aligo.in/akv10/profile/list/ ' 
-            category_search_response = requests.post(basic_send_url, data=kakaoTalk_data)            
-        except Exception as e:
-            resCode = 0
-            print(e)
-        else:
-            resCode = 200
-            result = category_search_response.json()
-        finally:
-            result['code'] = resCode
-            return result
+        url = 'https://kakaoapi.aligo.in/akv10/profile/list/ ' 
+        return self.sms_common(url = url,data = kakaoTalk_data)
+        # try:
+        #     result = dict()
+        #     basic_send_url = 'https://kakaoapi.aligo.in/akv10/profile/list/ ' 
+        #     category_search_response = requests.post(basic_send_url, data=kakaoTalk_data)            
+        # except Exception as e:
+        #     resCode = 0
+        #     print(e)
+        # else:
+        #     resCode = 200
+        #     result = category_search_response.json()
+        # finally:
+        #     result['code'] = resCode
+        #     return result
 
     def kakaoTalk_template_list(self,kakaoTalk_data):
-        try:
-            result = dict()
-            basic_send_url = 'https://kakaoapi.aligo.in/akv10/template/list/ ' 
-            category_search_response = requests.post(basic_send_url, data=kakaoTalk_data)
-        except Exception as e:
-            resCode = 0
-            print(e)
-        else:
-            resCode = 200
-            result = category_search_response.json()            
-        finally:
-            result['code'] = resCode
-            return result
+        url = 'https://kakaoapi.aligo.in/akv10/template/list/ ' 
+        return self.sms_common(url = url,data = kakaoTalk_data)
+        # try:
+        #     result = dict()
+        #     basic_send_url = 'https://kakaoapi.aligo.in/akv10/template/list/ ' 
+        #     category_search_response = requests.post(basic_send_url, data=kakaoTalk_data)
+        # except Exception as e:
+        #     resCode = 0
+        #     print(e)
+        # else:
+        #     resCode = 200
+        #     result = category_search_response.json()            
+        # finally:
+        #     result['code'] = resCode
+        #     return result
     
     def kakaoTalk_alimtalk_send(self,kakaoTalk_data):
-        try:
-            result = dict()
-            basic_send_url = 'https://kakaoapi.aligo.in/akv10/alimtalk/send/ ' 
-            response = requests.post(basic_send_url, data=kakaoTalk_data)
-        except Exception as e:
-            resCode = 0
-            # print(e)
-        else:
-            resCode = 200
-            result = response.json()
-        finally:
-            result['code'] = resCode
-            return result
+        url = 'https://kakaoapi.aligo.in/akv10/alimtalk/send/ '
+        return self.sms_common(url = url,data = kakaoTalk_data)
+        # try:
+        #     result = dict()
+        #     basic_send_url = 'https://kakaoapi.aligo.in/akv10/alimtalk/send/ ' 
+        #     response = requests.post(basic_send_url, data=kakaoTalk_data)
+        # except Exception as e:
+        #     resCode = 0
+        #     # print(e)
+        # else:
+        #     resCode = 200
+        #     result = response.json()
+        # finally:
+        #     result['code'] = resCode
+        #     return result
            
 
 
