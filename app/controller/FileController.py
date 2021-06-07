@@ -22,7 +22,7 @@ def a():
 
 @fileC.route('/fileList', methods=['POST'])
 def list_file():
-    fileList = list()
+    fileList = tuple()
     files = os.listdir(FPATH)
     for x in files:
         fileList.append(FPATH+"/"+x)
