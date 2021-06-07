@@ -26,7 +26,7 @@ def list_public_file():
     files = os.listdir(FPATH)
     i=0
     for x in files:
-        path = "https://file.sagekhw.net/file/fileDownload/"+x
+        path = "https://file.sagekhw.net/file/public/"+x
         
         fileList["'"+str(i)+"'"] = path
         i=i+1
@@ -61,7 +61,7 @@ def upload_file():
 
 
 #파일 download 처리
-@fileC.route('/fileDownload/<filename>', methods=['GET'])
+@fileC.route('/public/<filename>', methods=['GET'])
 def get_download_file(filename):
     
     sw=0
