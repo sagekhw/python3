@@ -28,7 +28,7 @@ def list_file():
     for x in files:
         path = FPATH+"/"+x
         
-        fileList["'"+i+"'"] = path
+        fileList["'"+str(i)+"'"] = path
         i=i+1
         
     # path = FPATH
