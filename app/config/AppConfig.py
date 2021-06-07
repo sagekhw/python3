@@ -52,6 +52,10 @@ def init_application():
         # app = FlaskAppConfig.init_app(app)
         CORS(app, resources={r'*': {'origins': '*'}})
 
+        #### FILE ####
+        app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024 #1MB
+        app.config['UPLOAD_EXTENSIONS'] = ['.jpg', '.png', '.gif']
+
         #### JWT ####
         # JWT 매니저 활성화
 
