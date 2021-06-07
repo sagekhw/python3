@@ -61,17 +61,17 @@ def upload_file():
 
 
 #파일 download 처리
-@fileC.route('/fileDownload', methods=['GET'])
-def get_download_file():
-    req = request.get_json()
+@fileC.route('/fileDownload/<filename>', methods=['GET'])
+def get_download_file(filename):
+    
     sw=0
     files = os.listdir(FPATH)
     for x in files:
-        if(x==req['file']):
+        if(x==filename):
             sw=1
     path = FPATH
-    return send_file(path + req['file'],
-				attachment_filename = req['file'],
+    return send_file(path + filename,
+				attachment_filename = filename,
 				as_attachment=True)
 
 #파일 download 처리
