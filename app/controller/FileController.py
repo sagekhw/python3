@@ -11,7 +11,7 @@ fileC = Blueprint('FileController', __name__, url_prefix='/file')
 mailService = mailService()
 smsService = smsService()
 fileService = fileService()
-FPATH = "/home/hw/data/files/"
+FPATH = "/home/data/"
 # FPATH = "~/oco/"
 
 

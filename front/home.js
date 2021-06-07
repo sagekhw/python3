@@ -9,7 +9,7 @@ const getData = async () => {
         for(let i = 0; i < FileElement.files.length; i++){
             formData.append("files", FileElement.files[i]);
         }
-        const url = 'http://localhost:11111/file/fileUpload';
+        const url = 'http://file.sagekhw.net/file/fileUpload';
 
         const response = await axios.post(url, formData);
         console.log(response)
