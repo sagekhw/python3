@@ -20,6 +20,20 @@ FPATH = "/home/data/"
 def a():    
     return {'hello':'a-simba'}
 
+@fileC.route('/filePublicList', methods=['GET'])
+def list_file():
+    fileList = dict()
+    files = os.listdir(FPATH)
+    i=0
+    for x in files:
+        path = "https://file.sagekhw.net/file/fileDownload/"+x
+        
+        fileList["'"+str(i)+"'"] = path
+        i=i+1
+        
+    # path = FPATH
+    return fileList
+
 @fileC.route('/fileList', methods=['POST'])
 def list_file():
     fileList = dict()
@@ -45,6 +59,20 @@ def upload_file():
     return {'hello':f'{files}'}
     # return {'hello':'a-simba'}
 
+
+#파일 download 처리
+@fileC.route('/fileDownload', methods=['GET'])
+def download_file():
+    req = request.get_json()
+    sw=0
+    files = os.listdir(FPATH)
+    for x in files:
+        if(x==req['file']):
+            sw=1
+    path = FPATH
+    return send_file(path + req['file'],
+				attachment_filename = req['file'],
+				as_attachment=True)
 
 #파일 download 처리
 @fileC.route('/fileDownload', methods=['POST'])
