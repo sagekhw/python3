@@ -20,20 +20,23 @@ FPATH = "/home/data/"
 def a():    
     return {'hello':'a-simba'}
 
-#TODO file upload
-# nginx
-# insert mail
+@fileC.route('/fileList', methods=['POST'])
+def list_file():
+    fileList = list()
+    files = os.listdir(FPATH)
+    for x in files:
+        fileList.append(FPATH+"/"+x)
+        
+    path = FPATH
+    return fileList
 
 #파일 업로드 처리
 @fileC.route('/fileUpload', methods=['POST'])
 @cross_origin()
 def upload_file():
-    print('1')
     f = request.files['files']
 	#저장할 경로 + 파일명
-    print('2')
     f.save(FPATH + secure_filename(f.filename))
-    print('3')
     files = os.listdir(FPATH)
     return {'hello':f'{files}'}
     # return {'hello':'a-simba'}
