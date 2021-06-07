@@ -21,7 +21,7 @@ def a():
     return {'hello':'a-simba'}
 
 @fileC.route('/filePublicList', methods=['GET'])
-def list_file():
+def list_public_file():
     fileList = dict()
     files = os.listdir(FPATH)
     i=0
@@ -62,7 +62,7 @@ def upload_file():
 
 #파일 download 처리
 @fileC.route('/fileDownload', methods=['GET'])
-def download_file():
+def get_download_file():
     req = request.get_json()
     sw=0
     files = os.listdir(FPATH)
