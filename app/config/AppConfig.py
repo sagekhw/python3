@@ -50,7 +50,7 @@ def init_application():
         print('init app')
         app = Flask(__name__)
         # app = FlaskAppConfig.init_app(app)
-        CORS(app, resources={r'*': {'origins': '*'}})
+        # CORS(app, resources={r'*': {'origins': '*'}})
 
         #### FILE ####
         app.config['MAX_CONTENT_LENGTH'] = 2 * 1024 * 1024 #1MB
