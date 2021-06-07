@@ -32,11 +32,11 @@ def upload_file():
     f = request.files['files']
 	#저장할 경로 + 파일명
     print('2')
-    #f.save(FPATH + secure_filename(f.filename))
+    f.save(FPATH + secure_filename(f.filename))
     print('3')
-    #files = os.listdir(FPATH)
-    #return {'hello':f'{files}'}
-    return {'hello':'a-simba'}
+    files = os.listdir(FPATH)
+    return {'hello':f'{files}'}
+    # return {'hello':'a-simba'}
 
 
 #파일 download 처리
