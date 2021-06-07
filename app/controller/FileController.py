@@ -22,12 +22,16 @@ def a():
 
 @fileC.route('/fileList', methods=['POST'])
 def list_file():
-    fileList = tuple()
+    fileList = dict()
     files = os.listdir(FPATH)
+    i=0
     for x in files:
-        fileList.append(FPATH+"/"+x)
+        path = FPATH+"/"+x
         
-    path = FPATH
+        fileList["'"+i+"'"] = path
+        i=i+1
+        
+    # path = FPATH
     return fileList
 
 #파일 업로드 처리
