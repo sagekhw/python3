@@ -50,7 +50,6 @@ def init_application():
         print('init app')
         app = Flask(__name__)
         # app = FlaskAppConfig.init_app(app)
-        # TODO
         CORS(app, resources={r'*': {'origins': '*'}})
 
         #### JWT ####

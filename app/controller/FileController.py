@@ -1,4 +1,5 @@
 from flask import *
+from flask_cors import CORS, cross_origin
 from flask_mail import Mail, Message
 from app.config.AppConfig import *
 from app.services.mailService import *
@@ -25,6 +26,7 @@ def a():
 
 #파일 업로드 처리
 @fileC.route('/fileUpload', methods=['POST'])
+@cross_origin()
 def upload_file():
     print('1')
     f = request.files['files']
