@@ -26,7 +26,7 @@ def list_file():
     files = os.listdir(FPATH)
     i=0
     for x in files:
-        path = FPATH+""+x
+        path = "https://file.sagekhw.net/file/fileDownload/"+x
         
         fileList["'"+str(i)+"'"] = path
         i=i+1
