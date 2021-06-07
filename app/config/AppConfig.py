@@ -50,7 +50,7 @@ def init_application():
         print('init app')
         app = Flask(__name__)
         # app = FlaskAppConfig.init_app(app)
-        CORS(app, resources={r'*': {'origins': '*'}})
+        CORS(app, resources={r'/*': {'origins': '*'}})
 
         #### FILE ####
         app.config['MAX_CONTENT_LENGTH'] = 2 * 1024 * 1024 #1MB
@@ -63,6 +63,8 @@ def init_application():
         app.config['JWT_ALGORITHM'] = FlaskConfig.JWT_ALGORITHM
         app.config['JWT_ACCESS_TOKEN_EXPIRES'] = datetime.timedelta(minutes=FlaskConfig.JWT_ACCESS_TOKEN_EXPIRES)
         jwt = JWTManager(app)
+
+        app.config['CORS_HEADERS'] = 'Content-Type'
         """
         # jwt = JWTManager()
         # jwt.init_app(app)
