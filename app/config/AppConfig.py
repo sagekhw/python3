@@ -53,8 +53,8 @@ def init_application():
         CORS(app, resources={r'*': {'origins': '*'}})
 
         #### FILE ####
-        app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024 #1MB
-        app.config['UPLOAD_EXTENSIONS'] = ['.jpg', '.png', '.gif']
+        app.config['MAX_CONTENT_LENGTH'] = 1 * 1024 * 1024 #1MB
+        # app.config['UPLOAD_EXTENSIONS'] = ['.jpg', '.png', '.gif']
 
         #### JWT ####
         # JWT 매니저 활성화
